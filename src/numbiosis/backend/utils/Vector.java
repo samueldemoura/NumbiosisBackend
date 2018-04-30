@@ -9,13 +9,13 @@ public class Vector implements Iterable<Double> {
         ZEROS, ONES
     }
     private double[] vector = null;
-    private int size = 0;
+    private int size;
     public Vector(double[] vector) {
         this.vector = vector;
         this.size = vector.length;
     }
 
-    public Vector(Type T, int size) {
+    Vector(Type T, int size) {
         if(T.equals(Type.ZEROS)) vector = new double[size];
         else if(T.equals(Type.ONES)) {
             vector = new double[size];
@@ -29,11 +29,11 @@ public class Vector implements Iterable<Double> {
         return this.size;
     }
 
-    public double get(int index) {
+    double get(int index) {
         return this.vector[index];
     }
 
-    public double[] getValues() {
+    double[] getValues() {
         return this.vector;
     }
     public void set(double value, int index) {
@@ -46,13 +46,20 @@ public class Vector implements Iterable<Double> {
         return r;
     }
 
-    public void multiplyBy(Vector v) {
+    protected void multiplyBy(Vector v) {
         for(int k = 0; k < this.size(); k++) {
             this.vector[k] *= v.get(k);
         }
     }
 
-    public void divideBy(Vector v) {
+    public Vector multiplyBy(double scalar) {
+        for(int k = 0; k < this.size(); k++) {
+            this.vector[k] *= scalar;
+        }
+        return this;
+    }
+
+    void divideBy(Vector v) {
         for(int k = 0; k < this.size(); k++) {
             this.vector[k] /= v.get(k);
         }
@@ -78,14 +85,17 @@ public class Vector implements Iterable<Double> {
         return new Vector(this.vector.clone());
     }
 
+    Vector split(int start, int end) {
+        return new Vector(Arrays.copyOfRange(this.vector,start,end));
+    }
+
     @Override
     public Iterator<Double> iterator() {
-        return new Iterator() {
+        return new Iterator <Double> () {
             private int i = 0;
             @Override
             public boolean hasNext() {
-                if(vector.length > i) return true;
-                return false;
+                return vector.length > i;
             }
 
             @Override

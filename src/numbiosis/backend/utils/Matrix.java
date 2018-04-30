@@ -1,5 +1,6 @@
 package numbiosis.backend.utils;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class Matrix implements Iterable<Vector> {
@@ -10,7 +11,7 @@ public class Matrix implements Iterable<Vector> {
         this(3,3);
     }
 
-    public Matrix(int i, int j) {
+    private Matrix(int i, int j) {
         this(new double[i][j]);
     }
 
@@ -52,7 +53,7 @@ public class Matrix implements Iterable<Vector> {
         line[from] = element;
     }
 
-    public Vector mainDiagonal() {
+    Vector mainDiagonal() {
         double [] vec = new double[this.diagonalSize];
         for (int k = 0; k < j; k++) {
             vec[k] = this.matrix[k][k];
@@ -60,25 +61,31 @@ public class Matrix implements Iterable<Vector> {
         return new Vector(vec);
     }
 
-    public void multiplyBy(double value) {
+    void multiplyBy(double value) {
         for(int k = 0;k < this.i;k++) {
             multiplyLineBy(value,k);
         }
     }
 
-    public void multiplyLineBy(double value, int line) {
+    void multiplyLineBy(double value, int line) {
         for(int col = 0; col < this.j; col++) {
             matrix[line][col] *= value;
         }
     }
 
-    public void divideLineBy(double value, int line) {
+    void divideLineBy(double value, int line) {
         for(int col = 0; col < this.j; col++) {
             matrix[line][col] /= value;
         }
     }
 
-    public void setValue(double value, int i, int j) {
+    void subtractLineBy(Vector v, int line) {
+        if(v.size() < this.i) throw new IllegalArgumentException();
+        for(int k = 0; k < this.i; k++)
+            this.matrix[line][k] -= v.get(k);
+    }
+
+    private void setValue(double value, int i, int j) {
         matrix[i][j] = value;
     }
 
@@ -87,14 +94,14 @@ public class Matrix implements Iterable<Vector> {
         matrix[line] = vector.getValues();
     }
 
-    public void setMainDiagonal(Vector vector) {
+    void setMainDiagonal(Vector vector) {
         if(vector.size() != this.diagonalSize) throw new IllegalArgumentException("The size of vector do not fit");
         for(int k = 0; k < this.diagonalSize; k++) {
             this.setValue(vector.get(k),k,k);
         }
     }
 
-    public double dotByLine(Vector v, int line) {
+    double dotByLine(Vector v, int line) {
         if(v.size() != j) throw new IllegalArgumentException("the size of vector do not fit");
 
         double ret = 0;
@@ -105,10 +112,21 @@ public class Matrix implements Iterable<Vector> {
         return ret;
     }
 
+    int getI() {
+        return this.i;
+    }
+
+    int getJ() {
+        return this.j;
+    }
+
+    double get(int i, int j) {
+        return this.matrix[i][j];
+    }
 
     @Override
-    public Iterator<Vector> iterator() {
-        return new Iterator<>() {
+    public Iterator <Vector> iterator() {
+        return new Iterator <Vector> () {
             private int i = 0;
             @Override
             public boolean hasNext() {
@@ -120,5 +138,15 @@ public class Matrix implements Iterable<Vector> {
                 return new Vector(matrix[i++]);
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        return "Matrix{" +
+                "matrix=" + Arrays.toString(matrix) +
+                ", i=" + i +
+                ", j=" + j +
+                ", diagonalSize=" + diagonalSize +
+                '}';
     }
 }
