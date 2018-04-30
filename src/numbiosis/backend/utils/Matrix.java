@@ -11,7 +11,7 @@ public class Matrix implements Iterable<Vector> {
         this(3,3);
     }
 
-    private Matrix(int i, int j) {
+    public Matrix(int i, int j) {
         this(new double[i][j]);
     }
 
@@ -85,7 +85,7 @@ public class Matrix implements Iterable<Vector> {
             this.matrix[line][k] -= v.get(k);
     }
 
-    private void setValue(double value, int i, int j) {
+    public void setValue(double value, int i, int j) {
         matrix[i][j] = value;
     }
 
@@ -120,7 +120,7 @@ public class Matrix implements Iterable<Vector> {
         return this.j;
     }
 
-    double get(int i, int j) {
+    public double get(int i, int j) {
         return this.matrix[i][j];
     }
 
