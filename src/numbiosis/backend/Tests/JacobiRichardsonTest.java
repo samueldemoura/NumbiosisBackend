@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class JacobiRichardsonTest {
 
     @Test
-    void run_covarege_test() {
+    void run_coverage_test() {
 
         double[][] matrixArray = {{10, 2, 1},
                                   {1, 5, 1},

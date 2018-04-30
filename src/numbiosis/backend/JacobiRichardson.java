@@ -5,7 +5,7 @@ import numbiosis.backend.utils.Vector;
 
 public class JacobiRichardson {
 
-    public static Vector run(LinearSystem linearSystem, Vector initial, double epslon, int iterations) {
+    public static Vector run(LinearSystem linearSystem, Vector initial, double epsilon, int iterations) {
         linearSystem.isolateMainDiagonal();
         Vector result = initial;
 
@@ -13,15 +13,16 @@ public class JacobiRichardson {
 
         previousVector = result.copy();
 
-        for(int j = 0; j < initial.size(); j++) {
-            result.set(linearSystem.applyInLine(result,j,j),j);
+        for (int j = 0; j < initial.size(); j++) {
+            result.set(linearSystem.applyInLine(result, j, j), j);
         }
 
-        while(k < iterations) {
-            for(int j = 0; j < initial.size(); j++) {
-                result.set(linearSystem.applyInLine(result,j,j),j);
+        while (k < iterations) {
+            for (int j = 0; j < initial.size(); j++) {
+                result.set(linearSystem.applyInLine(result, j, j), j);
             }
-            if(inifiteNorm(result,epslon)) break;
+
+            if (infiniteNorm(result, epsilon)) break;
             k++;
         }
 
@@ -30,13 +31,13 @@ public class JacobiRichardson {
 
     private static Vector previousVector = null;
 
-    private static boolean inifiteNorm(Vector vector, double epslon) {
+    private static boolean infiniteNorm(Vector vector, double epsilon) {
         double max = 0;
-        for(double scalar: previousVector.subtract(vector)) {
+        for (double scalar : previousVector.subtract(vector)) {
             if (Math.abs(scalar) > max) max = Math.abs(scalar);
         }
         previousVector = vector.copy();
-        return max - epslon < 0;
+        return max - epsilon < 0;
     }
 
 }
