@@ -99,8 +99,8 @@ public class Matrix implements Iterable<Vector> {
 
         double ret = 0;
 
-        for (int k = 0; k < v.size(); k++) {
-            ret += v.getValues()[k] * matrix[line][k];
+            for (int k = 0; k < v.size(); k++) {
+            ret += v.get(k) * this.matrix[line][k];
         }
         return ret;
     }
@@ -108,12 +108,11 @@ public class Matrix implements Iterable<Vector> {
 
     @Override
     public Iterator<Vector> iterator() {
-        return new Iterator<Vector>() {
+        return new Iterator<>() {
             private int i = 0;
             @Override
             public boolean hasNext() {
-                if(i < matrix.length) return true;
-                return false;
+                return i < matrix.length;
             }
 
             @Override

@@ -27,7 +27,7 @@ class JacobiRichardsonTest {
 
         Vector initial = new Vector(kickArray);
 
-        Vector result = JacobiRichardson.run(ls, initial,0.0001,300);
+        Vector result = JacobiRichardson.run(ls, initial,0.0001,3);
 
         System.out.println(result);
 

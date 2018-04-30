@@ -7,19 +7,18 @@ public class JacobiRichardson {
 
     public static Vector run(LinearSystem linearSystem, Vector initial, double epslon, int iterations) {
         linearSystem.isolateMainDiagonal();
-        Vector result = initial;
+        Vector result = initial.copy();
 
         int k = 1;
 
-        previousVector = result.copy();
-
         for(int j = 0; j < initial.size(); j++) {
-            result.set(linearSystem.applyInLine(result,j,j),j);
+            result.set(linearSystem.applyInLine(initial,j,j),j);
         }
 
         while(k < iterations) {
-            for(int j = 0; j < initial.size(); j++) {
-                result.set(linearSystem.applyInLine(result,j,j),j);
+            previousVector = result.copy();
+            for(int j = 0; j < result.size(); j++) {
+                result.set(linearSystem.applyInLine(previousVector,j,j),j);
             }
             if(inifiteNorm(result,epslon)) break;
             k++;

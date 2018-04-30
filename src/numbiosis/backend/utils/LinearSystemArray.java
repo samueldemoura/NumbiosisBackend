@@ -21,7 +21,7 @@ public class LinearSystemArray implements LinearSystem {
 
     public double applyInLine(Vector vector, int line, int relativeTo) {
         if(this.mainIsolated) {
-            return this.matrix.dotByLine(vector,line) + vector.get(line);
+            return this.matrix.dotByLine(vector,line) + this.vector.get(line);
         }
         return this.matrix.dotByLine(vector,line);
 
