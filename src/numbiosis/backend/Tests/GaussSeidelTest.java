@@ -7,6 +7,8 @@ import numbiosis.backend.utils.Matrix;
 import numbiosis.backend.utils.Vector;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GaussSeidelTest {
@@ -14,26 +16,26 @@ class GaussSeidelTest {
     @Test
     void run() {
 
-        double[][] matrixArray = {{10, 2, 1},
-                {1, 5, 1},
-                {2, 3, 10}};
-        double[] vectorArray = {7,-8,6};
-
-        double[] kickArray = {0.7,-1.6, 0.6};
+        double[][] matrixArray = {{5, 1, 1},
+                {3, 4, 1},
+                {3, 3, 6}};
+        double[] vectorArray = {5,6,0};
 
         Matrix matrix = new Matrix(matrixArray);
         Vector vector = new Vector(vectorArray);
         LinearSystem ls = new LinearSystemArray(matrix,vector);
 
-        Vector initial = new Vector(kickArray);
+        Vector initial = new Vector(Vector.Type.ZEROS,3);
 
-        Vector result = GaussSeidel.run(ls, initial,0.0001,3);
+        List<Vector> vec = GaussSeidel.run(ls, initial,0.0001,3);
 
-        System.out.println(result);
+        Vector iter0 = new Vector(new double[]{0, 0, 0});
+        Vector iter1 = new Vector(new double[]{1, 0.75, -0.875});
+        Vector iter2 = new Vector(new double[]{1.025, 0.95, -0.9875});
 
-        for(Vector v: matrix) System.out.println(v.dot(vector));
-
-        assertTrue(result.enoughNear(new Vector(new double[]{0.9994, -1.9888, 0.9984}),1));
+        assertTrue(vec.get(0).enoughNear(iter0,0.00001));
+        assertTrue(vec.get(1).enoughNear(iter1,0.00001));
+        assertTrue(vec.get(2).enoughNear(iter2,0.00001));
 
     }
 }

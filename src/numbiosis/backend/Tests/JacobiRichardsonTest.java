@@ -7,6 +7,8 @@ import numbiosis.backend.utils.Matrix;
 import numbiosis.backend.utils.Vector;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class JacobiRichardsonTest {
@@ -27,13 +29,15 @@ class JacobiRichardsonTest {
 
         Vector initial = new Vector(kickArray);
 
-        Vector result = JacobiRichardson.run(ls, initial,0.0001,3);
+        List<Vector> result = JacobiRichardson.run(ls, initial,0.0001,3);
 
-        System.out.println(result);
+        Vector iter0 = new Vector(kickArray),
+                iter1 = new Vector(new double[]{0.96, -1.86, 0.94}),
+        iter2 = new Vector(new double[]{0.978, -1.98, 0.966});
 
-        for(Vector v: matrix) System.out.println(v.dot(vector));
-
-        assertTrue(result.enoughNear(new Vector(new double[]{0.9994, -1.9888, 0.9984}),1));
+        assertTrue(result.get(0).enoughNear(iter0,0.0001));
+        assertTrue(result.get(1).enoughNear(iter1,0.0001));
+        assertTrue(result.get(2).enoughNear(iter2,0.0001));
 
     }
 }
