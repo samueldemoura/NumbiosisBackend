@@ -33,6 +33,10 @@ public class LinearSystemArray implements LinearSystem {
         return this.matrix.dotByLine(vector, line);
     }
 
+    public Vector getVector() {
+        return this.vector;
+    }
+
     @Override
     public void subtractLineBy(Vector vector, int line) {
             this.matrix.subtractLineBy(
@@ -46,9 +50,7 @@ public class LinearSystemArray implements LinearSystem {
     @Override
     public void multiplyLineBy(double scalar, int line) {
         this.matrix.multiplyLineBy(scalar, line);
-        this.vector.set(
-                scalar *  this.vector.get(vector.size() - 1),
-                line);
+        this.vector.set(this.vector.get(line) * scalar, line);
     }
 
     @Override
@@ -60,6 +62,9 @@ public class LinearSystemArray implements LinearSystem {
     public double get(int i, int j) {
         return this.matrix.get(i, j);
     }
+
+    @Override
+    public void set(double value, int i, int j) { this.matrix.setValue(value, i, j); }
 
     @Override
     public Vector getLine(int line) {

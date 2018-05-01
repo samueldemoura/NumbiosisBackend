@@ -13,7 +13,11 @@ public interface LinearSystem {
 
     double get(int k, int k1);
 
+    void set(double value, int i, int j);
+
     Vector getLine(int line);
 
     void subtractLineFromLine(int i, int k);
+
+    public Vector getVector();
 }
