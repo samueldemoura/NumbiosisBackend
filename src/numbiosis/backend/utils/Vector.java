@@ -29,7 +29,7 @@ public class Vector implements Iterable<Double> {
         return this.size;
     }
 
-    double get(int index) {
+    public double get(int index) {
         return this.vector[index];
     }
 
