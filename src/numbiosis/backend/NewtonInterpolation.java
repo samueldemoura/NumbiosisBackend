@@ -26,7 +26,7 @@ public class NewtonInterpolation {
         // Create the polinomial
         StringBuilder p = new StringBuilder("" + dd[1][0]); // f[x0]
 
-        for (int i = 2; i < n; i++) {
+        for (int i = 2; i <= n; i++) {
             p.append(" + (" + dd[i][0] + ")"); // +f[x0,x1,...]
 
             for (int j = 0; j < i-1; j++) {
